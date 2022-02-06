@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using OrderProcessingApi.Domain.Database;
 
+
 namespace OrderProcessingApi.Data;
 
 public class Context : DbContext
@@ -25,22 +26,17 @@ public class Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        {
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        }
+
         modelBuilder.Entity<Product>()
             .HasMany<Bundle>(p => p.Bundles)
-            .WithMany(b => b.Products)
-            .Map(pb =>
-            {
-
-            });
+            .WithMany(b => b.Products);
 
         modelBuilder.Entity<Product>()
             .HasMany<Platform>(p => p.Platforms)
-            .WithMany(p => p.Products)
-            .Map(cs =>
-            {
-                cs.MapLeftKey("StudentRefId");
-                cs.MapRightKey("CourseRefId");
-                cs.ToTable("StudentCourse");
-            });
+            .WithMany(p => p.Products);
     }
 }

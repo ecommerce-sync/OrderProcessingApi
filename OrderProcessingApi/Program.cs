@@ -10,9 +10,6 @@ using OrderProcessingApi.Services.Inventory.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
-IConfiguration Configuration = app.Configuration;
-
 //Inventory Fetchers
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IWooInventoryFetcher, WooInventoryFetcher>();
@@ -32,7 +29,7 @@ builder.Services
     .AddDbContext<Context>(options =>
         options.UseLazyLoadingProxies()
             .UseSqlServer(
-                Configuration.GetConnectionString("Context"))
+                builder.Configuration.GetConnectionString("Context"))
     );
 
 builder.Services.AddControllers();
@@ -48,6 +45,9 @@ builder.Services.AddAuthorization(options =>
     // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy;
 });
+
+var app = builder.Build();
+IConfiguration Configuration = app.Configuration;
 
 
 
