@@ -31,7 +31,7 @@ public class WooInventoryFetcher : IWooInventoryFetcher
 
         var items = new List<WooInventoryItem>();
 
-        var prevId = "";
+        var prevId = 0;
         var n = 1;
         while (true)
         {
@@ -39,7 +39,7 @@ public class WooInventoryFetcher : IWooInventoryFetcher
             var url = $"{profile.Url}{endpoint}";
             var tempProducts = _fetchWooApiService.GetApiResponseJson<IEnumerable<WooInventoryItem>>(url).ToList();
 
-            var currentId = tempProducts.LastOrDefault().Id ?? "";
+            var currentId = tempProducts.LastOrDefault()?.WooId ?? 0;
             if (currentId == prevId) break;
 
             prevId = currentId;

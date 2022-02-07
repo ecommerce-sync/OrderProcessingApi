@@ -26,7 +26,7 @@ builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 //Add Mappers
 builder.Services.AddSingleton(new MapperConfiguration(mc =>
 {
-    mc.AddProfile(new WooItemProfile());
+    mc.AddProfile(new WooInventoryItemProfile());
     mc.AddProfile(new InventoryItemProfile());
 }).CreateMapper());
 
