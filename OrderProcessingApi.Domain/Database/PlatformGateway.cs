@@ -2,11 +2,11 @@
 
 namespace OrderProcessingApi.Domain.Database;
 
-public class Platform
+public class PlatformGateway
 {
-    public Platform()
+    public PlatformGateway()
     {
-        this.Products = new HashSet<Product>();
+        this.Products = new HashSet<ProductGateway>();
     }
     public int Id { get; set; }
     [Column("Platform_Type")]
@@ -20,6 +20,6 @@ public class Platform
     public DateTime DateLastModified { get; set; }
     [Column("Date_Created")]
     public DateTime DateCreated { get; set; }
-    public virtual ICollection<Product> Products { get; set; }
+    public virtual ICollection<ProductGateway> Products { get; set; }
 
 }

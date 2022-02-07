@@ -39,7 +39,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("BundleProduct");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Bundle", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.BundleGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Bundles");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Platform", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.PlatformGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Platforms");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,7 +137,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.User", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -176,22 +176,22 @@ namespace OrderProcessingApi.Data.Migrations
 
             modelBuilder.Entity("BundleProduct", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.Bundle", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.BundleGateway", null)
                         .WithMany()
                         .HasForeignKey("BundlesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OrderProcessingApi.Domain.Database.Product", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.ProductGateway", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.User", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", null)
                         .WithMany("Products")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -199,20 +199,20 @@ namespace OrderProcessingApi.Data.Migrations
 
             modelBuilder.Entity("PlatformProduct", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.Platform", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.PlatformGateway", null)
                         .WithMany()
                         .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OrderProcessingApi.Domain.Database.Product", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.ProductGateway", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.User", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
                     b.Navigation("Products");
                 });

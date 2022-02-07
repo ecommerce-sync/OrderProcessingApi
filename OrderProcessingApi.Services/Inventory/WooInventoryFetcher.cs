@@ -18,10 +18,10 @@ public class WooInventoryFetcher : IWooInventoryFetcher
         _mapper = mapper;
     }
 
-    public void AddInventoryItems(List<InventoryItem> inventoryItems, IntegrationProfile profile)
+    public void AddInventoryItems(List<Product> inventoryItems, IntegrationProfile profile)
     {
 
-        var items = _mapper.Map<List<InventoryItem>>(GetAll(profile.WooIntegrationProfile));
+        var items = _mapper.Map<List<Product>>(GetAll(profile.WooIntegrationProfile));
         inventoryItems.AddRange(items);
     }
 

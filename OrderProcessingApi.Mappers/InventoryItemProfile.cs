@@ -9,7 +9,7 @@ public class InventoryItemProfile : Profile
 {
     public InventoryItemProfile()
     {
-        CreateMap<InventoryItem, Product>()
+        CreateMap<Product, ProductGateway>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Gsku, opt => opt.MapFrom(src => "src.Gsku"))
@@ -19,9 +19,9 @@ public class InventoryItemProfile : Profile
             .ForMember(dest => dest.Platforms, opt => opt.MapFrom(src => MapPlatforms(src.InventoryItemIntegrations)));
     }
 
-    private static List<Platform> MapPlatforms(IEnumerable<InventoryItemIntegration> inventoryItemIntegrations)
+    private static List<PlatformGateway> MapPlatforms(IEnumerable<InventoryItemIntegration> inventoryItemIntegrations)
     {
-        return inventoryItemIntegrations.Select(integration => new Platform
+        return inventoryItemIntegrations.Select(integration => new PlatformGateway
         {
             PlatformId = integration.IntegrationId, 
             PlatformSku = integration.IntegrationSku,

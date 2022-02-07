@@ -24,7 +24,7 @@ namespace OrderProcessingApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.User", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,15 +88,15 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.User", "User")
+                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "UserGateway")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserGateway");
                 });
 #pragma warning restore 612, 618
         }

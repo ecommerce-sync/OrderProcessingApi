@@ -12,8 +12,8 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220207202149_add-date-created")]
-    partial class adddatecreated
+    [Migration("20220207202849_added-gateway-names")]
+    partial class addedgatewaynames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace OrderProcessingApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BundleProduct", b =>
+            modelBuilder.Entity("BundleGatewayProductGateway", b =>
                 {
                     b.Property<int>("BundlesId")
                         .HasColumnType("int");
@@ -36,7 +36,7 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("BundleProduct");
+                    b.ToTable("BundleGatewayProductGateway");
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.BundleGateway", b =>
@@ -139,12 +139,12 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("UserGatewayId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserGatewayId");
 
                     b.ToTable("Products");
                 });
@@ -175,7 +175,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PlatformProduct", b =>
+            modelBuilder.Entity("PlatformGatewayProductGateway", b =>
                 {
                     b.Property<int>("PlatformsId")
                         .HasColumnType("int");
@@ -187,10 +187,10 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("PlatformProduct");
+                    b.ToTable("PlatformGatewayProductGateway");
                 });
 
-            modelBuilder.Entity("BundleProduct", b =>
+            modelBuilder.Entity("BundleGatewayProductGateway", b =>
                 {
                     b.HasOne("OrderProcessingApi.Domain.Database.BundleGateway", null)
                         .WithMany()
@@ -209,11 +209,11 @@ namespace OrderProcessingApi.Data.Migrations
                 {
                     b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", null)
                         .WithMany("Products")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserGatewayId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("PlatformProduct", b =>
+            modelBuilder.Entity("PlatformGatewayProductGateway", b =>
                 {
                     b.HasOne("OrderProcessingApi.Domain.Database.PlatformGateway", null)
                         .WithMany()

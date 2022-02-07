@@ -2,12 +2,12 @@
 
 namespace OrderProcessingApi.Domain.Database;
 
-public class Product
+public class ProductGateway
 {
-    public Product()
+    public ProductGateway()
     {
-        this.Bundles = new HashSet<Bundle>();
-        this.Platforms = new HashSet<Platform>();
+        this.Bundles = new HashSet<BundleGateway>();
+        this.Platforms = new HashSet<PlatformGateway>();
     }
     public int Id { get; set; }
     public string Title { get; set; }
@@ -19,7 +19,7 @@ public class Product
     public DateTime DateLastModified { get; set; }
     [Column("Date_Created")]
     public DateTime DateCreated { get; set; }
-    public virtual ICollection<Bundle> Bundles { get; set; }
-    public virtual ICollection<Platform> Platforms { get; set; }
+    public virtual ICollection<BundleGateway> Bundles { get; set; }
+    public virtual ICollection<PlatformGateway> Platforms { get; set; }
 
 }
