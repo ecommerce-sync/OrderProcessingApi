@@ -1,100 +1,73 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+parameters:
+  - name: 10405e1a-dfbb-424f-b3ac-c4be6f3ee8a9
+    type: string
+  - name: appsvc-orderprocessingapi-dev
+    type: string
+  - name: main
+    type: string
 
-trigger:
-- main
+stages:
+  - stage: build_stage
+    displayName: "Build"
+    jobs:
+      - job: build_job
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET Core SDK"
+            inputs:
+              version: 6.x
+              performMultiLevelLookup: true
+              includePreviewVersions: true # Required for preview versions
 
-pool:
-  vmImage: 'ubuntu-latest'
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Restore"
+            inputs:
+              command: "restore"
+              feedsToUse: "select"
+              feedRestore: "store/feedName"
+              projects: "**/*.csproj"
+              includeNuGetOrg: true
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  dotNetFramework: 'net6.0'
-  dotNetVersion: '6.0.x'
-  targetRuntime: 'linux-x64'
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Build"
+            inputs:
+              projects: src.sln # solution file or project files
+              command: "build"
+              arguments: "--configuration $(buildConfiguration)"
 
-steps:
+          # Publish projects to specified folder.
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Publish"
+            inputs:
+              command: "publish"
+              publishWebProjects: true
+              projects: "**/*.csproj"
+              arguments: "-o $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+              modifyOutputPath: true
+            # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+              artifactName: "artefactName"
 
-# Build the app for .NET 6 framework
-- task: UseDotNet@2
-  inputs:
-    version: $(dotNetVersion)
-    includePreviewVersions: true
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build .NET 6 Application'
-
-
-# Publish it as .NET 6 self-contained application for linux runtime
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
-
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
-
-
-
-# # Publish it as .NET 6 self-contained application for linux runtime
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: publish
-#     publishWebProjects: True
-#     arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)'
-#     zipAfterPublish: True
-
-# # Package the file and uploads them as an artifact of the build
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)' 
-#     artifactName: 'MinimalAPI'
-
-# #Publish it to the Azure App Service
-# - task: AzureWebApp@1
-#   inputs:
-#     appType: webAppLinux
-#     azureSubscription: $(azureSPNName) #this is the name of the SPN
-#     appName: $(azureAppServiceName) #App Service's unique name
-#     package: $(Build.ArtifactStagingDirectory)/**/*.zip' #get it from your Azure portal
-
-# # Build the app for .NET 6 framework
-# steps:
-# - task: UseDotNet@2
-#   inputs:
-#     version: $(dotNetVersion)
-#     includePreviewVersions: true
-# - script: dotnet build --configuration $(buildConfiguration)
-#   displayName: 'Build .NET 6 Application'
-
-# # Publish it as .NET 6 self-contained application for linux runtime
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: publish
-#     publishWebProjects: True
-#     arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)'
-#     zipAfterPublish: True
-
-# # Package the file and uploads them as an artifact of the build
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)' 
-#     artifactName: 'MinimalAPI'
-
-# #Publish it to the Azure App Service
-# - task: AzureWebApp@1
-#   inputs:
-#     appType: webAppLinux
-#     azureSubscription: $(azureSPNName) #this is the name of the SPN
-#     appName: $(azureAppServiceName) #App Service's unique name
-#     package: $(Build.ArtifactStagingDirectory)/**/*.zip
+  - stage: publish_web_app
+    displayName: "Publish to web app"
+    dependsOn: build_stage
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], '${{ parameters.sourceBranchTrigger }}'), eq(variables['force_deploy'], 'true')))
+    jobs:
+      - job: publish_web_app
+        steps:
+          - checkout: none
+          # download the artifact drop from the previous job
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: "current"
+              artifact: "artefactName"
+              path: "$(Build.ArtifactStagingDirectory)"
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: ${{ parameters.azureSubscription }}
+              appType: "webApp"
+              appName: ${{ parameters.webAppName }}
+              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
