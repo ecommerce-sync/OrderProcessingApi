@@ -7,16 +7,16 @@ public class WooItemProfile : Profile
 {
     public WooItemProfile()
     {
-        CreateMap<InventoryItem, WooItem>()
-            .ForPath(dest => dest.stock_quantity, opt => opt.MapFrom(src => src.Quantity))
-            .ForMember(dest => dest.Sku, opt => opt.MapFrom(src => src.Sku))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.WooId));
+        CreateMap<InventoryItem, WooInventoryItem>()
+            .ForPath(dest => dest.StockQuantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.Sku, opt => opt.MapFrom(src => src.Gsku))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
-        CreateMap<WooItem, InventoryItem>()
-            .ForPath(dest => dest.Quantity, opt => opt.MapFrom(src => src.stock_quantity))
-            .ForMember(dest => dest.Sku, opt => opt.MapFrom(src => src.Sku))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.WooId, opt => opt.MapFrom(src => src.Id));
+        CreateMap<WooInventoryItem, InventoryItem>()
+            .ForPath(dest => dest.Quantity, opt => opt.MapFrom(src => src.StockQuantity))
+            .ForMember(dest => dest.Gsku, opt => opt.MapFrom(src => src.Sku))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
     }
 }

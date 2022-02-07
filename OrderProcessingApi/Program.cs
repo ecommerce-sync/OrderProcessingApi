@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 using OrderProcessingApi.Data;
+using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Mappers;
 using OrderProcessingApi.Services.ApiServices;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
@@ -19,9 +20,15 @@ builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 //Api Services
 builder.Services.AddScoped<IFetchWooApiService, FetchWooApiService>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 
 //Add Mappers
-builder.Services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new WooItemProfile()); }).CreateMapper());
+builder.Services.AddSingleton(new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new WooItemProfile());
+    mc.AddProfile(new InventoryItemProfile());
+}).CreateMapper());
 
 //Database
 builder.Services
@@ -47,8 +54,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-IConfiguration Configuration = app.Configuration;
-
+var Configuration = app.Configuration;
 
 
 // Configure the HTTP request pipeline.

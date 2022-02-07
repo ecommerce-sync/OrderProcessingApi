@@ -13,6 +13,7 @@ public class Platform
     public string PlatformSku { get; set; }
     [Column("Platform_Id")]
     public string PlatformId { get; set; }
+    public double Price { get; set; }
     [Column("Last_Modified")]
     public DateTime LastModified { get; set; }
     public virtual ICollection<Product> Products { get; set; }

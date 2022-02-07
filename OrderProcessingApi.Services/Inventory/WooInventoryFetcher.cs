@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
@@ -19,15 +20,16 @@ public class WooInventoryFetcher : IWooInventoryFetcher
 
     public void AddInventoryItems(List<InventoryItem> inventoryItems, IntegrationProfile profile)
     {
+
         var items = _mapper.Map<List<InventoryItem>>(GetAll(profile.WooIntegrationProfile));
         inventoryItems.AddRange(items);
     }
 
-    private IEnumerable<WooItem> GetAll(WooIntegrationProfile profile)
+    private IEnumerable<WooInventoryItem> GetAll(WooIntegrationProfile profile)
     {
         _fetchWooApiService.SetCredentials(profile);
 
-        var items = new List<WooItem>();
+        var items = new List<WooInventoryItem>();
 
         var prevId = "";
         var n = 1;
@@ -35,7 +37,7 @@ public class WooInventoryFetcher : IWooInventoryFetcher
         {
             var endpoint = $"wp-json/wc/v3/products?per_page=100&page={n}";
             var url = $"{profile.Url}{endpoint}";
-            var tempProducts = _fetchWooApiService.GetApiResponseJson<IEnumerable<WooItem>>(url).ToList();
+            var tempProducts = _fetchWooApiService.GetApiResponseJson<IEnumerable<WooInventoryItem>>(url).ToList();
 
             var currentId = tempProducts.LastOrDefault().Id ?? "";
             if (currentId == prevId) break;
