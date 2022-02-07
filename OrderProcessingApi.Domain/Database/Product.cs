@@ -2,7 +2,7 @@
 
 namespace OrderProcessingApi.Domain.Database;
 
-public class Product : IProduct
+public class Product
 {
     public Product()
     {
