@@ -26,7 +26,7 @@ public class InventoryItemProfile : Profile
             PlatformId = integration.IntegrationId, 
             PlatformSku = integration.IntegrationSku,
             Price = integration.IntegrationPrice, 
-            LastModified = DateTime.Now,
+            DateLastModified = DateTime.Now,
             PlatformType = MapPlatformType(integration.Integration)
         }).ToList();
     }
