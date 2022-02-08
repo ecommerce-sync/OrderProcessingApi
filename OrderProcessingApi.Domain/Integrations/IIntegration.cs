@@ -1,6 +1,6 @@
 ﻿namespace OrderProcessingApi.Domain.IntegrationProfiles;
 
-public interface IIntegrationProfile
+public interface IIntegration
 {
     int Id { get; set; }
 }

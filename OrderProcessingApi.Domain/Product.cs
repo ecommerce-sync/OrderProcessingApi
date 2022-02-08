@@ -6,5 +6,5 @@ public class Product
     public string Description { get; set; }
     public string Gsku { get; set; }
     public int Quantity { get; set; }
-    public IEnumerable<InventoryItemIntegration> InventoryItemIntegrations { get; set; }
+    public IEnumerable<Platform> InventoryItemIntegrations { get; set; }
 }

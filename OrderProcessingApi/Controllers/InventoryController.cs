@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.IntegrationProfiles;
+using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 
 namespace OrderProcessingApi.Controllers;
@@ -19,13 +20,13 @@ public class InventoryController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Product> GetAll()
+    public IEnumerable<Product> Get()
     {
         var inventoryItems = new List<Product>();
-        var profile = new IntegrationProfile
+        var profile = new Integration
         {
             Id = 1,
-            WooIntegrationProfile = new WooIntegrationProfile
+            WooIntegration = new WooIntegration
             {
                 Id = 1,
                 ConsumerKey = "ck_0c436b3a21352f0298a30a683dc020fe4deed527",
@@ -35,5 +36,11 @@ public class InventoryController : ControllerBase
         };
         _inventoryService.AddInventoryItems(inventoryItems, profile);
         return inventoryItems;
+    }
+
+
+    public Product Update()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -4,6 +4,7 @@ using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Domain.IntegrationProfiles;
+using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 
 namespace OrderProcessingApi.Services.Inventory;
@@ -25,11 +26,11 @@ public class InventoryService : IInventoryService
         _mapper = mapper;
     }
 
-    public void AddInventoryItems(List<Product> inventoryItems, IntegrationProfile profile)
+    public void AddInventoryItems(List<Product> inventoryItems, Integration integration)
     {
         if (_inventoryFetchers.Any())
             foreach (var inventoryFetcher in _inventoryFetchers)
-                inventoryFetcher.AddInventoryItems(inventoryItems, profile);
+                inventoryFetcher.AddInventoryItems(inventoryItems, integration);
 
         var products = inventoryItems.Select(inventoryItem => _mapper.Map<ProductGateway>(inventoryItem)).ToList();
         

@@ -1,6 +1,6 @@
 ﻿namespace OrderProcessingApi.Domain.Enums;
 
-public enum IntegrationEnum
+public enum PlatformEnum
 {
     Woo
 }

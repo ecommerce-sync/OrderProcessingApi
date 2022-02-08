@@ -15,16 +15,16 @@ public class WooInventoryItemProfile : Profile
             ;
     }
 
-    private static List<InventoryItemIntegration> MapInventoryItemIntegrations(double price, string sku, int wooId)
+    private static List<Platform> MapInventoryItemIntegrations(double price, string sku, int wooId)
     {
-        var inventoryItemIntegrations = new List<InventoryItemIntegration>
+        var inventoryItemIntegrations = new List<Platform>
         {
             new()
             {
-                Integration = IntegrationEnum.Woo,
-                IntegrationPrice = price,
-                IntegrationSku = sku,
-                IntegrationId = wooId,
+                PlatformType = PlatformEnum.Woo,
+                PlatformPrice = price,
+                PlatformSku = sku,
+                PlatformId = wooId,
             }
         };
 

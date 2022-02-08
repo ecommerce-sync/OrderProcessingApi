@@ -19,24 +19,24 @@ public class InventoryItemProfile : Profile
             .ForMember(dest => dest.Platforms, opt => opt.MapFrom(src => MapPlatforms(src.InventoryItemIntegrations)));
     }
 
-    private static List<PlatformGateway> MapPlatforms(IEnumerable<InventoryItemIntegration> inventoryItemIntegrations)
+    private static List<PlatformGateway> MapPlatforms(IEnumerable<Platform> inventoryItemIntegrations)
     {
         return inventoryItemIntegrations.Select(integration => new PlatformGateway
         {
-            PlatformId = integration.IntegrationId, 
-            PlatformSku = integration.IntegrationSku,
-            Price = integration.IntegrationPrice, 
+            PlatformId = integration.PlatformId, 
+            PlatformSku = integration.PlatformSku,
+            Price = integration.PlatformPrice, 
             DateLastModified = DateTime.Now,
             DateCreated = DateTime.Now,
-            PlatformType = MapPlatformType(integration.Integration)
+            PlatformType = MapPlatformType(integration.PlatformType)
         }).ToList();
     }
 
-    private static int MapPlatformType(IntegrationEnum integrationEnum)
+    private static int MapPlatformType(PlatformEnum platformEnum)
     {
-        return integrationEnum switch
+        return platformEnum switch
         {
-            IntegrationEnum.Woo => 0,
+            PlatformEnum.Woo => 0,
             _ => 99
         };
     }

@@ -1,9 +1,9 @@
 ﻿using OrderProcessingApi.Domain;
-using OrderProcessingApi.Domain.IntegrationProfiles;
+using OrderProcessingApi.Domain.Integrations;
 
 namespace OrderProcessingApi.Services.Inventory.Interfaces;
 
 public interface IInventoryServiceBase
 {
-     void AddInventoryItems(List<Product> inventoryItems, IntegrationProfile profile);
+     void AddInventoryItems(List<Product> inventoryItems, Integration profile);
 }

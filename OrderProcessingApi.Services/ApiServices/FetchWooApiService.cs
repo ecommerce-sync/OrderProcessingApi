@@ -8,7 +8,7 @@ namespace OrderProcessingApi.Services.ApiServices;
 
 public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
 {
-    private WooIntegrationProfile _profile;
+    private WooIntegration _profile;
 
     public override HttpResponseMessage CallApi(string url)
     {
@@ -29,7 +29,7 @@ public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
         return response;
     }
 
-    public void SetCredentials(WooIntegrationProfile profile)
+    public void SetCredentials(WooIntegration profile)
     {
         _profile = profile;
     }
