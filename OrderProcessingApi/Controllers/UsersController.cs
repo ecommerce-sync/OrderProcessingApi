@@ -18,37 +18,48 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public IEnumerable<User> Create([FromBody] IEnumerable<User> users)
+    public IEnumerable<User> Create([FromBody] IEnumerable<UserDto> users)
     {
         throw new NotImplementedException();
     }
 
     [HttpPost]
-    public IEnumerable<User> Create([FromBody] User user)
+    public IEnumerable<User> Create([FromBody] UserDto user)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet]
-    public IEnumerable<User> Get(string id, string auth0Id, DateTime dateLastModified, DateTime dateCreated)
+    public IEnumerable<User> Get(int id, string auth0Id, string dateLastModifiedFrom, string dateLastModifiedTo,
+        string dateCreatedFrom, string dateCreatedTo)
+    {
+        var userDto = new UserDto()
+        {
+            Id = id,
+            Auth0Id = auth0Id,
+            DateLastModifiedFrom = dateLastModifiedFrom,
+            DateLastModifiedTo = dateLastModifiedTo,
+            DateCreatedFrom = dateCreatedFrom,
+            DateCreatedTo = dateCreatedTo
+        };
+        return _usersService.GetUsersQuery(userDto);
+    }
+
+    [HttpPut]
+    public IEnumerable<User> Update([FromBody] IEnumerable<UserDto> users)
     {
         throw new NotImplementedException();
     }
 
     [HttpPut]
-    public IEnumerable<User> Update([FromBody] IEnumerable<User> users)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpPut]
-    public IEnumerable<User> Update([FromBody] User user)
+    public IEnumerable<User> Update([FromBody] UserDto user)
     {
         throw new NotImplementedException();
     }
 
     [HttpDelete]
-    public IEnumerable<User> Delete(string id, string auth0Id, DateTime dateLastModified, DateTime dateCreated)
+    public IEnumerable<User> Delete(string id, string auth0Id, DateTime dateLastModifiedFrom, DateTime dateLastModifiedTo,
+        DateTime dateCreatedFrom, DateTime dateCreatedTo)
     {
         throw new NotImplementedException();
     }

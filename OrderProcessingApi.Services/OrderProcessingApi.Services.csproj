@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderProcessingApi.Data\OrderProcessingApi.Data.csproj" />
     <ProjectReference Include="..\OrderProcessingApi.Domain\OrderProcessingApi.Domain.csproj" />
+    <ProjectReference Include="..\OrderProcessingApi.Helpers\OrderProcessingApi.Helpers.csproj" />
     <ProjectReference Include="..\OrderProcessingApi.Mappers\OrderProcessingApi.Mappers.csproj" />
   </ItemGroup>
 
