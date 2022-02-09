@@ -4,6 +4,7 @@ using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 using OrderProcessingApi.Services.Inventory.Interfaces;
+using Integration = OrderProcessingApi.Domain.Integrations.Integration;
 
 namespace OrderProcessingApi.Services.Inventory;
 
@@ -24,11 +25,11 @@ public class WooInventoryFetcher : IWooInventoryFetcher
         inventoryItems.AddRange(items);
     }
 
-    private IEnumerable<WooInventoryItem> GetAll(WooIntegration integration)
+    private IEnumerable<WooProduct> GetAll(WooIntegration integration)
     {
         _fetchWooApiService.SetCredentials(integration);
 
-        var items = new List<WooInventoryItem>();
+        var items = new List<WooProduct>();
 
         var prevId = 0;
         var n = 1;
@@ -36,7 +37,7 @@ public class WooInventoryFetcher : IWooInventoryFetcher
         {
             var endpoint = $"wp-json/wc/v3/products?per_page=100&page={n}";
             var url = $"{integration.Url}{endpoint}";
-            var tempProducts = _fetchWooApiService.GetApiResponseJson<IEnumerable<WooInventoryItem>>(url).ToList();
+            var tempProducts = _fetchWooApiService.GetApiResponseJson<IEnumerable<WooProduct>>(url).ToList();
 
             var currentId = tempProducts.LastOrDefault()?.WooId ?? 0;
             if (currentId == prevId) break;

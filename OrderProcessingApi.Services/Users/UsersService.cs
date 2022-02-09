@@ -1,5 +1,7 @@
-﻿using OrderProcessingApi.Data.Interfaces;
+﻿using AutoMapper;
+using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
+using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Helpers;
 
 namespace OrderProcessingApi.Services.Users;
@@ -7,36 +9,55 @@ namespace OrderProcessingApi.Services.Users;
 public class UsersService : IUsersService
 {
     private readonly IRepository _repository;
+    private readonly IMapper _mapper;
 
-    public UsersService(IRepository repository)
+    public UsersService(IRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
-    public IEnumerable<User> GetUsersQuery(UserDto user)
+    public IEnumerable<User> GetUsersQuery(UserQueryDto userQuery)
     {
-        if (user.DateLastModifiedFrom != null && user.DateLastModifiedTo != null && user.DateCreatedFrom != null &&
-            user.DateCreatedTo != null)
+        if (userQuery.DateLastModifiedFrom != null && userQuery.DateLastModifiedTo != null && userQuery.DateCreatedFrom != null &&
+            userQuery.DateCreatedTo != null)
         {
             var users = _repository.GetAll<User>().Where(u =>
-                u.Id.ForceStringFromInt().Contains(user.Id.ForceStringFromInt()) &&
-                u.Auth0Id.Contains(user.Auth0Id.ForceString()) &&
-                DateTime.Compare(DateTime.Parse(user.DateLastModifiedFrom), u.DateLastModified) < 0 &&
-                DateTime.Compare(DateTime.Parse(user.DateLastModifiedTo), u.DateLastModified) > 0 &&
-                DateTime.Compare(DateTime.Parse(user.DateCreatedFrom), u.DateLastModified) < 0 &&
-                DateTime.Compare(DateTime.Parse(user.DateCreatedTo), u.DateLastModified) > 0);
+                u.Id.ForceStringFromInt().Contains(userQuery.Id.ForceStringFromInt()) &&
+                u.Auth0Id.Contains(userQuery.Auth0Id.ForceString()) &&
+                DateTime.Compare(userQuery.DateLastModifiedFrom ?? new DateTime(), u.DateLastModified) < 0 &&
+                DateTime.Compare(userQuery.DateLastModifiedTo ?? new DateTime(), u.DateLastModified) > 0 &&
+                DateTime.Compare(userQuery.DateCreatedFrom ?? new DateTime(), u.DateLastModified) < 0 &&
+                DateTime.Compare(userQuery.DateCreatedTo ?? new DateTime(), u.DateLastModified) > 0);
             return users;
         }
 
-        if (user.DateLastModifiedFrom == null || user.DateLastModifiedTo == null || user.DateCreatedFrom == null ||
-            user.DateCreatedTo == null)
+        if (userQuery.DateLastModifiedFrom == null || userQuery.DateLastModifiedTo == null || userQuery.DateCreatedFrom == null ||
+            userQuery.DateCreatedTo == null)
         {
             var users = _repository.GetAll<User>().Where(u =>
-                u.Id.ForceStringFromInt().Contains(user.Id.ForceStringFromInt()) &&
-                u.Auth0Id.Contains(user.Auth0Id.ForceString()));
+                u.Id.ForceStringFromInt().Contains(userQuery.Id.ForceStringFromInt()) &&
+                u.Auth0Id.Contains(userQuery.Auth0Id.ForceString()));
             return users;
         }
 
         throw new ArgumentException();
+    }
+
+    public IEnumerable<UserGateway> CreateUsers(IEnumerable<UserDto> userDtos)
+    {
+        var users = _mapper.Map<List<UserGateway>>(userDtos);
+        try
+        {
+            _repository.AddRange(users);
+            _repository.Commit();
+            return users;
+        }
+        catch (Exception ex)
+        {
+            //TODO Handle specific exceptions
+            throw new ApplicationException(message: ex.ToString());
+        }
+        
     }
 }

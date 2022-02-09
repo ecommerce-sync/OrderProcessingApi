@@ -9,5 +9,5 @@ public class User
     public string Auth0Id { get; set; }
     public DateTime DateLastModified { get; set; }
     public DateTime DateCreated { get; set; }
-    public Integration Integration { get; set; }
+    public List<Product> Products { get; set; }
 }

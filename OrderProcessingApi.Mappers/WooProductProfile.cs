@@ -4,14 +4,13 @@ using OrderProcessingApi.Domain.Enums;
 
 namespace OrderProcessingApi.Mappers;
 
-public class WooInventoryItemProfile : Profile
+public class WooProductProfile : Profile
 {
-    public WooInventoryItemProfile()
+    public WooProductProfile()
     {
-        CreateMap<WooInventoryItem, Product>()
+        CreateMap<WooProduct, Product>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.InventoryItemIntegrations, opt =>opt.MapFrom(src => MapInventoryItemIntegrations(src.Price, src.Sku, src.WooId)))
             ;
     }
 

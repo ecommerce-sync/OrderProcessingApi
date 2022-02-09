@@ -1,22 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
+using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.Inventory.Interfaces;
+using Integration = OrderProcessingApi.Domain.Integrations.Integration;
 
 namespace OrderProcessingApi.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("[controller]")]
-public class InventoryController : ControllerBase
+public class ProductsController : ControllerBase
 {
     private readonly IInventoryService _inventoryService;
 
-    public InventoryController(IInventoryService inventoryService)
+    public ProductsController(IInventoryService inventoryService)
     {
         _inventoryService = inventoryService;
+    }
+
+    [HttpPost]
+    public IEnumerable<UserGateway> Create([FromBody] IEnumerable<UserDto> users)
+    {
+        return _inventoryService.CreateProduct(users);
     }
 
     [HttpGet]
@@ -38,7 +46,7 @@ public class InventoryController : ControllerBase
         return inventoryItems;
     }
 
-
+    [HttpPatch]
     public Product Update()
     {
         throw new NotImplementedException();

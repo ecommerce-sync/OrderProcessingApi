@@ -6,6 +6,7 @@ using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.Inventory.Interfaces;
+using Integration = OrderProcessingApi.Domain.Integrations.Integration;
 
 namespace OrderProcessingApi.Services.Inventory;
 

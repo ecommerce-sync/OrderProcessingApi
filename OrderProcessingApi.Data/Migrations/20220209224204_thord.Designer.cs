@@ -12,8 +12,8 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220206175518_initial")]
-    partial class initial
+    [Migration("20220209224204_thord")]
+    partial class thord
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,14 @@ namespace OrderProcessingApi.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -44,15 +52,8 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Quantity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -80,8 +81,13 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.HasKey("Id");
 
@@ -90,13 +96,18 @@ namespace OrderProcessingApi.Data.Migrations
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "UserGateway")
-                        .WithMany()
+                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "User")
+                        .WithMany("Products")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("UserGateway");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

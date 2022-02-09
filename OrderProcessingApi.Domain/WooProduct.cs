@@ -2,7 +2,7 @@
 
 namespace OrderProcessingApi.Domain;
 
-public class WooInventoryItem
+public class WooProduct
 {
     [JsonProperty("id")]
     public int WooId { get; set; }

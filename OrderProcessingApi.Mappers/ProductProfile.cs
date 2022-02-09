@@ -5,18 +5,16 @@ using OrderProcessingApi.Domain.Enums;
 
 namespace OrderProcessingApi.Mappers;
 
-public class InventoryItemProfile : Profile
+public class ProductProfile : Profile
 {
-    public InventoryItemProfile()
+    public ProductProfile()
     {
         CreateMap<Product, ProductGateway>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Gsku, opt => opt.MapFrom(src => "src.Gsku"))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => "src.Quantity"))
-            .ForMember(dest => dest.Bundles, opt => opt.Ignore())
-            .ForMember(dest => dest.Platforms, opt => opt.MapFrom(src => MapPlatforms(src.InventoryItemIntegrations)));
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => "src.Quantity"));
     }
 
     private static List<PlatformGateway> MapPlatforms(IEnumerable<Platform> inventoryItemIntegrations)

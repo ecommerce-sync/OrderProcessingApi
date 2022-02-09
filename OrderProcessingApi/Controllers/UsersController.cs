@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
+using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Services.Users;
 
 namespace OrderProcessingApi.Controllers;
@@ -18,22 +19,17 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public IEnumerable<User> Create([FromBody] IEnumerable<UserDto> users)
+    public IEnumerable<UserGateway> Create([FromBody] IEnumerable<UserDto> users)
     {
-        throw new NotImplementedException();
+        return _usersService.CreateUsers(users);
     }
 
-    [HttpPost]
-    public IEnumerable<User> Create([FromBody] UserDto user)
-    {
-        throw new NotImplementedException();
-    }
 
     [HttpGet]
-    public IEnumerable<User> Get(int id, string auth0Id, string dateLastModifiedFrom, string dateLastModifiedTo,
-        string dateCreatedFrom, string dateCreatedTo)
+    public IEnumerable<User> Get(int id, string auth0Id, DateTime dateLastModifiedFrom, DateTime dateLastModifiedTo,
+        DateTime dateCreatedFrom, DateTime dateCreatedTo)
     {
-        var userDto = new UserDto()
+        var userDto = new UserQueryDto()
         {
             Id = id,
             Auth0Id = auth0Id,
@@ -46,13 +42,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut]
-    public IEnumerable<User> Update([FromBody] IEnumerable<UserDto> users)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpPut]
-    public IEnumerable<User> Update([FromBody] UserDto user)
+    public IEnumerable<User> Update([FromBody] IEnumerable<UserQueryDto> users)
     {
         throw new NotImplementedException();
     }
