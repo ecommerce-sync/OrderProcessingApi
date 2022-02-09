@@ -22,7 +22,7 @@ namespace OrderProcessingApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BundleProduct", b =>
+            modelBuilder.Entity("BundleGatewayProductGateway", b =>
                 {
                     b.Property<int>("BundlesId")
                         .HasColumnType("int");
@@ -34,10 +34,10 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("BundleProduct");
+                    b.ToTable("BundleGatewayProductGateway");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Bundle", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.BundleGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,9 +49,13 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -61,7 +65,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Bundles");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Platform", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.PlatformGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,9 +73,13 @@ namespace OrderProcessingApi.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.Property<int>("PlatformId")
                         .HasColumnType("int")
@@ -94,13 +102,21 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Platforms");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -114,10 +130,6 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -125,17 +137,17 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("UserGatewayId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserGatewayId");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.User", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,16 +160,20 @@ namespace OrderProcessingApi.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Auth0_Id");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PlatformProduct", b =>
+            modelBuilder.Entity("PlatformGatewayProductGateway", b =>
                 {
                     b.Property<int>("PlatformsId")
                         .HasColumnType("int");
@@ -169,48 +185,48 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("PlatformProduct");
+                    b.ToTable("PlatformGatewayProductGateway");
                 });
 
-            modelBuilder.Entity("BundleProduct", b =>
+            modelBuilder.Entity("BundleGatewayProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.Bundle", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.BundleGateway", null)
                         .WithMany()
                         .HasForeignKey("BundlesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OrderProcessingApi.Domain.Database.Product", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.ProductGateway", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.Product", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.User", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", null)
                         .WithMany("Products")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserGatewayId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("PlatformProduct", b =>
+            modelBuilder.Entity("PlatformGatewayProductGateway", b =>
                 {
-                    b.HasOne("OrderProcessingApi.Domain.Database.Platform", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.PlatformGateway", null)
                         .WithMany()
                         .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OrderProcessingApi.Domain.Database.Product", null)
+                    b.HasOne("OrderProcessingApi.Domain.Database.ProductGateway", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.User", b =>
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
                     b.Navigation("Products");
                 });

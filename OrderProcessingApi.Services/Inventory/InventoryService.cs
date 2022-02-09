@@ -25,13 +25,13 @@ public class InventoryService : IInventoryService
         _mapper = mapper;
     }
 
-    public void AddInventoryItems(List<InventoryItem> inventoryItems, IntegrationProfile profile)
+    public void AddInventoryItems(List<Product> inventoryItems, IntegrationProfile profile)
     {
         if (_inventoryFetchers.Any())
             foreach (var inventoryFetcher in _inventoryFetchers)
                 inventoryFetcher.AddInventoryItems(inventoryItems, profile);
 
-        var products = inventoryItems.Select(inventoryItem => _mapper.Map<Product>(inventoryItem)).ToList();
+        var products = inventoryItems.Select(inventoryItem => _mapper.Map<ProductGateway>(inventoryItem)).ToList();
         
         _repository.AddRange(products);
         _repository.Commit();

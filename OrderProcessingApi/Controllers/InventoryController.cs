@@ -19,9 +19,9 @@ public class InventoryController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<InventoryItem> GetAll()
+    public IEnumerable<Product> GetAll()
     {
-        var inventoryItems = new List<InventoryItem>();
+        var inventoryItems = new List<Product>();
         var profile = new IntegrationProfile
         {
             Id = 1,

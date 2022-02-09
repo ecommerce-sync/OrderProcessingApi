@@ -8,10 +8,10 @@ namespace OrderProcessingApi.Data;
 public class Context : DbContext
 {
     private readonly IConfiguration _configuration;
-    private DbSet<Product> Products { get; set; }
-    private DbSet<User> Users { get; set; }
-    private DbSet<Platform> Platforms { get; set; }
-    private DbSet<Bundle> Bundles { get; set; }
+    private DbSet<ProductGateway> Products { get; set; }
+    private DbSet<UserGateway> Users { get; set; }
+    private DbSet<PlatformGateway> Platforms { get; set; }
+    private DbSet<BundleGateway> Bundles { get; set; }
 
     public Context(IConfiguration configuration)
     {
@@ -31,12 +31,12 @@ public class Context : DbContext
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
-        modelBuilder.Entity<Product>()
-            .HasMany<Bundle>(p => p.Bundles)
+        modelBuilder.Entity<ProductGateway>()
+            .HasMany<BundleGateway>(p => p.Bundles)
             .WithMany(b => b.Products);
 
-        modelBuilder.Entity<Product>()
-            .HasMany<Platform>(p => p.Platforms)
+        modelBuilder.Entity<ProductGateway>()
+            .HasMany<PlatformGateway>(p => p.Platforms)
             .WithMany(p => p.Products);
     }
 }

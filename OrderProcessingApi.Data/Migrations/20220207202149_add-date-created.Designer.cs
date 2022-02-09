@@ -12,8 +12,8 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220206222014_moved-price")]
-    partial class movedprice
+    [Migration("20220207202149_add-date-created")]
+    partial class adddatecreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,9 +51,13 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -71,19 +75,26 @@ namespace OrderProcessingApi.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
 
-                    b.Property<string>("PlatformId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int")
                         .HasColumnName("Platform_Id");
 
                     b.Property<string>("PlatformSku")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Platform_Sku");
+
+                    b.Property<int>("PlatformType")
+                        .HasColumnType("int")
+                        .HasColumnName("Platform_Type");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -101,6 +112,14 @@ namespace OrderProcessingApi.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -112,10 +131,6 @@ namespace OrderProcessingApi.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -147,9 +162,13 @@ namespace OrderProcessingApi.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Auth0_Id");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Last_Modified");
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
 
                     b.HasKey("Id");
 

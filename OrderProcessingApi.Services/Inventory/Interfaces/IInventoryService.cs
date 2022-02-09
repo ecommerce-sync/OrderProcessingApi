@@ -5,5 +5,5 @@ namespace OrderProcessingApi.Services.Inventory.Interfaces;
 
 public interface IInventoryService
 {
-    void AddInventoryItems(List<InventoryItem> inventoryItems, IntegrationProfile profile);
+    void AddInventoryItems(List<Product> inventoryItems, IntegrationProfile profile);
 }
