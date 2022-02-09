@@ -1,5 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.EntityFrameworkCore;
+using OrderProcessingApi.Data;
 using OrderProcessingApi.Mappers;
 using OrderProcessingApi.Services.ApiServices;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
@@ -7,7 +9,6 @@ using OrderProcessingApi.Services.Inventory;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 //Inventory Fetchers
 builder.Services.AddScoped<IInventoryService, InventoryService>();
@@ -22,6 +23,14 @@ builder.Services.AddScoped<IFetchWooApiService, FetchWooApiService>();
 //Add Mappers
 builder.Services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new WooItemProfile()); }).CreateMapper());
 
+//Database
+builder.Services
+    .AddEntityFrameworkNpgsql()
+    .AddDbContext<Context>(options =>
+        options.UseLazyLoadingProxies()
+            .UseSqlServer(
+                builder.Configuration.GetConnectionString("Context"))
+    );
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +47,9 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
+IConfiguration Configuration = app.Configuration;
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
