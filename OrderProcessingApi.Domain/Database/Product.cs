@@ -13,8 +13,7 @@ public class Product
     public string Title { get; set; }
     public string Gsku { get; set; }
     public string Description { get; set; }
-    public double Price { get; set; }
-    public string Quantity { get; set; }
+    public int Quantity { get; set; }
     public string ImageUrl { get; set; }
     [Column("Last_Modified")]
     public DateTime LastModified { get; set; }

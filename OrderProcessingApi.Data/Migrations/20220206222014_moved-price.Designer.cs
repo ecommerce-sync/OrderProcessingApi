@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderProcessingApi.Data;
 
@@ -11,9 +12,10 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220206222014_moved-price")]
+    partial class movedprice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,18 +75,15 @@ namespace OrderProcessingApi.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Last_Modified");
 
-                    b.Property<int>("PlatformId")
-                        .HasColumnType("int")
+                    b.Property<string>("PlatformId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("Platform_Id");
 
                     b.Property<string>("PlatformSku")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Platform_Sku");
-
-                    b.Property<int>("PlatformType")
-                        .HasColumnType("int")
-                        .HasColumnName("Platform_Type");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
