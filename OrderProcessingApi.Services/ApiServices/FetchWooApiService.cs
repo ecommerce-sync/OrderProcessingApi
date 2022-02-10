@@ -1,14 +1,14 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using OrderProcessingApi.Domain.IntegrationProfiles;
+using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 
 namespace OrderProcessingApi.Services.ApiServices;
 
 public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
 {
-    private WooIntegrationProfile _profile;
+    private WooIntegration _profile;
 
     public override HttpResponseMessage CallApi(string url)
     {
@@ -29,7 +29,7 @@ public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
         return response;
     }
 
-    public void SetCredentials(WooIntegrationProfile profile)
+    public void SetCredentials(WooIntegration profile)
     {
         _profile = profile;
     }

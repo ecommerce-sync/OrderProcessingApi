@@ -8,6 +8,8 @@ using OrderProcessingApi.Services.ApiServices;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 using OrderProcessingApi.Services.Inventory;
 using OrderProcessingApi.Services.Inventory.Interfaces;
+using OrderProcessingApi.Services.Users;
+using OrderProcessingApi.Services.Users.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,17 +19,21 @@ builder.Services.AddScoped<IWooInventoryFetcher, WooInventoryFetcher>();
 
 // Add services to the container.
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 
 //Api Services
 builder.Services.AddScoped<IFetchWooApiService, FetchWooApiService>();
-builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<ITransactionManager, TransactionManager>();
+
 
 //Add Mappers
 builder.Services.AddSingleton(new MapperConfiguration(mc =>
 {
-    mc.AddProfile(new WooInventoryItemProfile());
-    mc.AddProfile(new InventoryItemProfile());
+    mc.AddProfile(new WooProductProfile());
+    mc.AddProfile(new ProductProfile());
+    mc.AddProfile(new UserDtoProfile());
+    mc.AddProfile(new ProductGatewayProfile());
 }).CreateMapper());
 
 //Database
