@@ -9,6 +9,7 @@ using OrderProcessingApi.Services.ApiServices.Interfaces;
 using OrderProcessingApi.Services.Inventory;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 using OrderProcessingApi.Services.Users;
+using OrderProcessingApi.Services.Users.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ builder.Services.AddSingleton(new MapperConfiguration(mc =>
     mc.AddProfile(new WooProductProfile());
     mc.AddProfile(new ProductProfile());
     mc.AddProfile(new UserDtoProfile());
+    mc.AddProfile(new ProductGatewayProfile());
 }).CreateMapper());
 
 //Database

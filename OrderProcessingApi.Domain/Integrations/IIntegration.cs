@@ -1,4 +1,4 @@
-﻿namespace OrderProcessingApi.Domain.IntegrationProfiles;
+﻿namespace OrderProcessingApi.Domain.Integrations;
 
 public interface IIntegration
 {

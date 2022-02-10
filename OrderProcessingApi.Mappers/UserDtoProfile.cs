@@ -2,7 +2,6 @@
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Domain.Enums;
-using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Domain.Integrations;
 using Integration = OrderProcessingApi.Domain.Integrations.Integration;
 

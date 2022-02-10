@@ -11,4 +11,9 @@ public static class NullHelper
     {
         return input == 0 ? "" : input.ToString();
     }
+
+    public static string ForceStringFromNullableInt(this int? input)
+    {
+        return input != null || input == 0 ? "" : input.ToString();
+    }
 }

@@ -9,6 +9,4 @@ public class ProductGateway : GatewayBase
     public string ImageUrl { get; set; }
     public UserGateway User { get; set; }
     public int UserId { get; set; }
-
-
 }

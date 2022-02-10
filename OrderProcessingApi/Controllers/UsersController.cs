@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Services.Users;
+using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Controllers;
 

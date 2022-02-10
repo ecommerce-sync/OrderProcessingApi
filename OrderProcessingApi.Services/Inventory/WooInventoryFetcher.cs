@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using OrderProcessingApi.Domain;
-using OrderProcessingApi.Domain.IntegrationProfiles;
 using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 using OrderProcessingApi.Services.Inventory.Interfaces;

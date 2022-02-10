@@ -1,6 +1,4 @@
-﻿using OrderProcessingApi.Domain.IntegrationProfiles;
-
-namespace OrderProcessingApi.Domain.Integrations;
+﻿namespace OrderProcessingApi.Domain.Integrations;
 
 public class Integration
 {

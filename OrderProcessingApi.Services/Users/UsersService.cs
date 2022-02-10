@@ -3,6 +3,7 @@ using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Helpers;
+using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Services.Users;
 

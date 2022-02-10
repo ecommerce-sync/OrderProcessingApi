@@ -1,7 +1,7 @@
 ﻿using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 
-namespace OrderProcessingApi.Services.Users
+namespace OrderProcessingApi.Services.Users.Interfaces
 {
     public interface IUsersService
     {
