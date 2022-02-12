@@ -16,24 +16,6 @@ public class UserDtoProfile : Profile
             .ForMember(dest => dest.Auth0Id, opt => opt.MapFrom(src => src.Auth0Id))
             .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated))
             .ForMember(dest => dest.DateLastModified, opt => opt.MapFrom(src => src.DateLastModified))
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => new List<ProductGateway>()))
-            ;
-    }
-
-    private static Integration MapIntegration(WooIntegrationDto wooIntegrationDto)
-    {
-        var integration = new Integration()
-        {
-            WooIntegration = new WooIntegration()
-            {
-                Url = wooIntegrationDto.Url,
-                ConsumerKey = wooIntegrationDto.ConsumerKey,
-                ConsumerSecret = wooIntegrationDto.ConsumerSecret,
-                DateCreated = DateTime.Now,
-                DateLastModified = DateTime.Now
-            },
-        };
-
-        return integration;
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => new List<ProductGateway>()));
     }
 }

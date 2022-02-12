@@ -20,6 +20,7 @@ builder.Services.AddScoped<IWooInventoryFetcher, WooInventoryFetcher>();
 // Add services to the container.
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 
@@ -33,7 +34,9 @@ builder.Services.AddSingleton(new MapperConfiguration(mc =>
     mc.AddProfile(new WooProductProfile());
     mc.AddProfile(new ProductProfile());
     mc.AddProfile(new UserDtoProfile());
+    mc.AddProfile(new UserGatewayProfile());
     mc.AddProfile(new ProductGatewayProfile());
+    mc.AddProfile(new IntegrationProfile());
 }).CreateMapper());
 
 //Database
@@ -48,7 +51,10 @@ builder.Services
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
 
 builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
     .AddNegotiate();

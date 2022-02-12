@@ -12,6 +12,8 @@ public class ProductDto
     public string Sku { get; set; }
     public int Quantity { get; set; }
     public string PlatformType { get; set; }
+    public int PlatformId { get; set; }
+
 }
 
 public class ProductResultDto : ProductDto

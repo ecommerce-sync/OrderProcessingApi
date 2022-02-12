@@ -27,25 +27,26 @@ public class UsersController : ControllerBase
 
 
     [HttpGet]
-    public IEnumerable<User> Get(int id, string auth0Id, DateTime dateLastModifiedFrom, DateTime dateLastModifiedTo,
-        DateTime dateCreatedFrom, DateTime dateCreatedTo)
+    public IEnumerable<UserResultDto> Get(string? auth0Id, DateTime? dateLastModifiedFrom, DateTime? dateLastModifiedTo,
+        DateTime? dateCreatedFrom, DateTime? dateCreatedTo, int? userId)
     {
         var userDto = new UserQueryDto()
         {
-            Id = id,
+            UserId = userId,
             Auth0Id = auth0Id,
             DateLastModifiedFrom = dateLastModifiedFrom,
             DateLastModifiedTo = dateLastModifiedTo,
             DateCreatedFrom = dateCreatedFrom,
             DateCreatedTo = dateCreatedTo
         };
+
         return _usersService.GetUsersQuery(userDto);
     }
 
-    [HttpPut]
-    public IEnumerable<User> Update([FromBody] IEnumerable<UserQueryDto> users)
+    [HttpPatch]
+    public UserUpdateDto Update([FromBody] UserUpdateDto userUpdate)
     {
-        throw new NotImplementedException();
+        return _usersService.UpdateUser(userUpdate);
     }
 
     [HttpDelete]

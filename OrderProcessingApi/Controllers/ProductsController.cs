@@ -37,9 +37,19 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ProductResultDto> Get(int userId)
+    public ActionResult<IEnumerable<ProductResultDto>> Get(int? userId)
     {
-        return _inventoryService.Get(userId);
+        try
+        {
+            Response.StatusCode = 400;
+            if (userId != null) return _inventoryService.Get((int)userId).ToList();
+
+            throw new InvalidUserException();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
     }
 
     //[HttpGet]

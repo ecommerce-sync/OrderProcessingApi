@@ -12,7 +12,6 @@ public class ProductProfile : Profile
         CreateMap<Product, ProductGateway>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Gsku, opt => opt.MapFrom(src => "src.Gsku"))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => "src.Quantity"));
     }

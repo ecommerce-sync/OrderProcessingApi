@@ -4,7 +4,7 @@ namespace OrderProcessingApi.Domain;
 
 public class UserQueryDto
 {
-    public int Id { get; init; }
+    public int? UserId { get; init; }
     public string? Auth0Id { get; init; }
     public DateTime? DateLastModifiedFrom { get; init; }
     public DateTime? DateLastModifiedTo { get; init; }

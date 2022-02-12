@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderProcessingApi.Data", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderProcessingApi.Functions", "OrderProcessingApi.Functions\OrderProcessingApi.Functions.csproj", "{95134885-222A-413A-8745-5AC312A7EE8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessingApi.Helpers", "OrderProcessingApi.Helpers\OrderProcessingApi.Helpers.csproj", "{B6DB6D4A-1519-4223-8037-E526A7C54FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderProcessingApi.Helpers", "OrderProcessingApi.Helpers\OrderProcessingApi.Helpers.csproj", "{B6DB6D4A-1519-4223-8037-E526A7C54FB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

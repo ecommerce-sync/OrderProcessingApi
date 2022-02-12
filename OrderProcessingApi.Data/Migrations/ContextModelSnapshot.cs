@@ -22,6 +22,44 @@ namespace OrderProcessingApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.IntegrationGateway", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Created");
+
+                    b.Property<DateTime>("DateLastModified")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Last_Modified");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WooConsumerKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WooConsumerSecret")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WooUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Integrations");
+                });
+
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.Property<int>("Id")
@@ -39,10 +77,6 @@ namespace OrderProcessingApi.Data.Migrations
                         .HasColumnName("Date_Last_Modified");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gsku")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -92,6 +126,17 @@ namespace OrderProcessingApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OrderProcessingApi.Domain.Database.IntegrationGateway", b =>
+                {
+                    b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "User")
+                        .WithMany("Integrations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "User")
@@ -105,6 +150,8 @@ namespace OrderProcessingApi.Data.Migrations
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
                 {
+                    b.Navigation("Integrations");
+
                     b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
