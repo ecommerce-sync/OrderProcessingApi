@@ -1,39 +1,47 @@
-name: Deploy ASP.NET CORE
+# This is a basic workflow to help you get started with Actions
 
-on: 
-	push:
-		branches:
-			-main
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 env:
-	AZURE_WEBAPP_NAME: appsvc-orderprocessingapi-dev
-	AZURE_WEBAPP_PATH: '.'
-	DOTNOT_VERSION: '6'
+  AZURE_WEBAPP_NAME: appsvc-orderprocessingapi-dev
+  AZURE_WEBAPP_PATH: '.'
+  DOTNOT_VERSION: '6'
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-	build-and-deploy:
-		runs-on: ubuntu-latest
-		steps:
-			
-			- uses: actions/checkout
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:    
+      - uses: actions/checkout
 
-			- name: Login via Azure CLI
-				uses: azure/login@v1
-				with: 
-					creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-			- name: SETUP .NET CORE
-				uses: actions/setup-dotnet@v1
-				with: 
-					dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: SETUP .NET CORE
+        uses: actions/setup-dotnet@v1
+        with: 
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-			- name: dotnet build + publish
-				run: |
-					dotnet build --configuration release
-					dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PATH }}
-
-			- name: Deploy to App Service
-				uses: azure/webapps-deploy@v2
-				with: 
-					app-name: ${{ env.AZURE_WEBAPP_NAME }}
-					package: '${{ env.AZURE_WEBAPP_PATH }}'
+      - name: dotnet build + publish
+        run: |
+          dotnet build --configuration release
+          dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PATH }}
+      
+      - name: Deploy to App Service
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: '${{ env.AZURE_WEBAPP_PATH }}'
