@@ -22,26 +22,28 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:    
-      - uses: actions/checkout
+    steps:
 
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with: 
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: SETUP .NET CORE
-        uses: actions/setup-dotnet@v1
-        with: 
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: dotnet build + publish
-        run: |
-          dotnet build --configuration release
-          dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PATH }}
+      # Checkout the repo
+      - uses: actions/checkout@main
       
-      - name: Deploy to App Service
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+      
+      # Run dotnet build and publish
+      - name: dotnet build and publish
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ORDERPROCESSING' 
+          
+      # Deploy to Azure Web apps
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: '${{ env.AZURE_WEBAPP_PATH }}'
+          publish-profile: ${{ secrets.DEV_AZURE_WEBAPP_PUBLISH_PROFILE  }}
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ORDERPROCESSING'
