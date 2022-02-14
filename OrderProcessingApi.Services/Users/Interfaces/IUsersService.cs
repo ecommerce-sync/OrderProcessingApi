@@ -7,7 +7,7 @@ namespace OrderProcessingApi.Services.Users.Interfaces
     {
         public IEnumerable<UserResultDto> GetUsersQuery(UserQueryDto userQuery);
         public IEnumerable<UserGateway> CreateUsers(IEnumerable<UserDto> userDtos);
-        public UserUpdateDto UpdateUser(UserUpdateDto userUpdateDto);
+        public UserUpdateDto Update(UserUpdateDto userUpdateDto);
 
     }
 }

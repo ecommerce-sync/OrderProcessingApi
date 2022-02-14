@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
-using OrderProcessingApi.Services.Users;
+using OrderProcessingApi.Helpers.Exceptions;
 using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Controllers;
@@ -13,10 +13,12 @@ namespace OrderProcessingApi.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUsersService _usersService;
+    private readonly IInventoryInitialiser _inventoryInitialiser;
 
-    public UsersController(IUsersService usersService)
+    public UsersController(IUsersService usersService, IInventoryInitialiser inventoryInitialiser)
     {
         _usersService = usersService;
+        _inventoryInitialiser = inventoryInitialiser;
     }
 
     [HttpPost]
@@ -44,9 +46,20 @@ public class UsersController : ControllerBase
     }
 
     [HttpPatch]
-    public UserUpdateDto Update([FromBody] UserUpdateDto userUpdate)
+    public ActionResult<UserUpdateDto> Update([FromBody] UserUpdateDto userUpdate)
     {
-        return _usersService.UpdateUser(userUpdate);
+        try
+        {
+            var user = _usersService.Update(userUpdate);
+            _inventoryInitialiser.Initialize(user.Integration, user.Id);
+            
+            return user;
+        }
+
+        catch (InvalidUserException exception)
+        {
+            return BadRequest(exception.Message);
+        }
     }
 
     [HttpDelete]

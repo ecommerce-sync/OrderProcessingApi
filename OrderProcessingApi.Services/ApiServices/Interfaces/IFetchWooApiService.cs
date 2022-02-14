@@ -4,5 +4,5 @@ namespace OrderProcessingApi.Services.ApiServices.Interfaces;
 
 public interface IFetchWooApiService : IFetchApiServiceBase
 {
-    public void SetCredentials(WooIntegration setting);
+    public void SetCredentials(Integration integration);
 }

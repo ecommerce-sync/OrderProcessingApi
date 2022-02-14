@@ -29,7 +29,7 @@ public class UserResultDto
 
 public class IntegrationDto
 {
-    public string WooConsumerKey { get; set; }
-    public string WooConsumerSecret { get; set; }
-    public string WooUrl { get; set; }
+    public string? WooConsumerKey { get; set; }
+    public string? WooConsumerSecret { get; set; }
+    public string? WooUrl { get; set; }
 }

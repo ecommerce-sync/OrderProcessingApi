@@ -4,15 +4,13 @@ namespace OrderProcessingApi.Domain.Database;
 
 public class PlatformGateway : GatewayBase
 {
-    [Column("Platform_Type")]
-    public int PlatformType { get; set; }
-    [Column("Platform_Sku")]
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string PlatformType { get; set; }
     public string PlatformSku { get; set; }
-    [Column("Platform_Id")]
     public int PlatformId { get; set; }
     public double Price { get; set; }
-
-    //Navigation Properties
-
+    public ProductGateway Product { get; set; }
+    public int ProductId { get; set; }
 
 }

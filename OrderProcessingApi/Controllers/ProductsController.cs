@@ -62,9 +62,9 @@ public class ProductsController : ControllerBase
     //        WooIntegration = new WooIntegration
     //        {
     //            Id = 1,
-    //            ConsumerKey = "ck_0c436b3a21352f0298a30a683dc020fe4deed527",
-    //            ConsumerSecret = "cs_090854fa655720b1ec5318861fde1e400eec8c27",
-    //            Url = "https://benparr.tech/blog/"
+    //            WooConsumerKey = "ck_0c436b3a21352f0298a30a683dc020fe4deed527",
+    //            WooConsumerSecret = "cs_090854fa655720b1ec5318861fde1e400eec8c27",
+    //            WooUrl = "https://benparr.tech/blog/"
     //        }
     //    };
     //    _inventoryService.AddInventoryItems(inventoryItems, profile);

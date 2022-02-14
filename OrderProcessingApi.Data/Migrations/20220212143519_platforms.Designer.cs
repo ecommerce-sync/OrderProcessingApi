@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderProcessingApi.Data;
 
@@ -11,9 +12,10 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220212143519_platforms")]
+    partial class platforms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,30 +78,24 @@ namespace OrderProcessingApi.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Date_Last_Modified");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PlatformId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Platform_Id");
 
                     b.Property<string>("PlatformSku")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Platform_Sku");
 
-                    b.Property<string>("PlatformType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PlatformType")
+                        .HasColumnType("int")
+                        .HasColumnName("Platform_Type");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

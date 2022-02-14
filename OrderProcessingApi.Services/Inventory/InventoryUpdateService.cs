@@ -18,7 +18,7 @@ namespace OrderProcessingApi.Services.Inventory
         {
             _inventoryFetchers = new List<IInventoryServiceBase>
             {
-                serviceProvider.GetService<IWooInventoryFetcher>()!
+                serviceProvider.GetService<IWooInventoryService>()!
             };
 
             _repository = repository;

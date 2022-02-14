@@ -11,6 +11,7 @@ public class Context : DbContext
 {
     private readonly IConfiguration _configuration;
     private DbSet<ProductGateway> Products { get; set; }
+    private DbSet<PlatformGateway> Platforms { get; set; } 
     private DbSet<UserGateway> Users { get; set; }
     private DbSet<IntegrationGateway> Integrations { get; set; }
 

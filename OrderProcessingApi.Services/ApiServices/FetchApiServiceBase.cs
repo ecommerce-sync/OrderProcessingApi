@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using Newtonsoft.Json;
+using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 
 namespace OrderProcessingApi.Services.ApiServices;

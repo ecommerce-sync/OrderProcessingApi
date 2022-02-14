@@ -20,7 +20,7 @@ public class InventoryService : IInventoryService
     {
         _inventoryFetchers = new List<IInventoryServiceBase>
         {
-            serviceProvider.GetService<IWooInventoryFetcher>()!
+            serviceProvider.GetService<IWooInventoryService>()!
         };
 
         _repository = repository;
@@ -49,7 +49,6 @@ public class InventoryService : IInventoryService
                 Description = productDto.Description,
                 Quantity = productDto.Quantity,
                 Title = productDto.Title,
-                ImageUrl = "",
                 Id = userId
             })
             .ToList();

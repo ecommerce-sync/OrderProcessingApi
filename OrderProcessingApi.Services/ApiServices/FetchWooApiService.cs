@@ -8,7 +8,7 @@ namespace OrderProcessingApi.Services.ApiServices;
 
 public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
 {
-    private WooIntegration _profile;
+    private Integration _integration;
 
     public override HttpResponseMessage CallApi(string url)
     {
@@ -29,14 +29,14 @@ public class FetchWooApiService : FetchApiServiceBase, IFetchWooApiService
         return response;
     }
 
-    public void SetCredentials(WooIntegration profile)
+    public void SetCredentials(Integration integration)
     {
-        _profile = profile;
+        _integration = integration;
     }
 
     private void AddDefaultHeaders(HttpClient httpClient)
     {
-        var byteArray = Encoding.ASCII.GetBytes($"{_profile.ConsumerKey}:{_profile.ConsumerSecret}");
+        var byteArray = Encoding.ASCII.GetBytes($"{_integration.WooConsumerKey}:{_integration.WooConsumerSecret}");
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
     }

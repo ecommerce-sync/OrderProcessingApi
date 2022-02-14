@@ -36,7 +36,7 @@ public class UsersService : IUsersService
         }
     }
 
-    public UserUpdateDto UpdateUser(UserUpdateDto userUpdateDto)
+    public UserUpdateDto Update(UserUpdateDto userUpdateDto)
     {
         _userValidationService.ValidateUser(userUpdateDto.Id);
 

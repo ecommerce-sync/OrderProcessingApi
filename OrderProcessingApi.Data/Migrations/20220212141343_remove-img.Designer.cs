@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderProcessingApi.Data;
 
@@ -11,9 +12,10 @@ using OrderProcessingApi.Data;
 namespace OrderProcessingApi.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220212141343_remove-img")]
+    partial class removeimg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,54 +60,6 @@ namespace OrderProcessingApi.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Integrations");
-                });
-
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.PlatformGateway", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Date_Created");
-
-                    b.Property<DateTime>("DateLastModified")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Date_Last_Modified");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PlatformId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlatformSku")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PlatformType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Platforms");
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
@@ -181,17 +135,6 @@ namespace OrderProcessingApi.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.PlatformGateway", b =>
-                {
-                    b.HasOne("OrderProcessingApi.Domain.Database.ProductGateway", "Product")
-                        .WithMany("Platforms")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
                 {
                     b.HasOne("OrderProcessingApi.Domain.Database.UserGateway", "User")
@@ -201,11 +144,6 @@ namespace OrderProcessingApi.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
-                {
-                    b.Navigation("Platforms");
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
