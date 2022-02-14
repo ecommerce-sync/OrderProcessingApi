@@ -24,7 +24,7 @@ public class UserResultDto
     public string? Auth0Id { get; init; }
     public DateTime? DateLastModified { get; init; }
     public DateTime? DateCreated { get; init; }
-    public IEnumerable<IntegrationDto> Integrations { get; set; }
+    public IntegrationDto Integration { get; set; }
 }
 
 public class IntegrationDto

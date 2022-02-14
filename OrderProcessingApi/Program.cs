@@ -50,19 +50,19 @@ builder.Services
     );
 
 //Authentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.Authority = builder.Configuration.GetValue<string>("Auth:Authority");
-    options.Audience = builder.Configuration.GetValue<string>("Auth:Audience");
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        NameClaimType = ClaimTypes.NameIdentifier
-    };
-});
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(options =>
+//{
+//    options.Authority = builder.Configuration.GetValue<string>("Auth:Authority");
+//    options.Audience = builder.Configuration.GetValue<string>("Auth:Audience");
+//    options.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        NameClaimType = ClaimTypes.NameIdentifier
+//    };
+//});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -86,15 +86,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseRouting();
-app.UseAuthorization();
-app.UseEndpoints(endpoints =>
+if (!app.Environment.IsDevelopment())
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller}/{action=Index}/{id?}");
-});
+    app.UseAuthentication();
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller}/{action=Index}/{id?}");
+    });
+}
+
 
 app.MapControllers();
 

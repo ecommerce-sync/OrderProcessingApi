@@ -14,11 +14,13 @@ public class UserValidationService : IUserValidationService
         _repository = repository;
     }
 
-    public void ValidateUser(int userId)
+    public UserGateway ValidateUser(int userId)
     {
         var user = _repository.GetAll<UserGateway>().FirstOrDefault(u => u.Id == userId);
 
         if (user == null) throw new InvalidUserException();
+
+        return user;
     }
 }
 

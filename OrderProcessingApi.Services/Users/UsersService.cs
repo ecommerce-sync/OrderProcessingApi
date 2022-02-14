@@ -2,15 +2,14 @@
 using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
-using OrderProcessingApi.Helpers;
 using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Services.Users;
 
 public class UsersService : IUsersService
 {
-    private readonly IRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IRepository _repository;
     private readonly IUserValidationService _userValidationService;
 
     public UsersService(IRepository repository, IMapper mapper, IUserValidationService userValidationService)
@@ -32,20 +31,30 @@ public class UsersService : IUsersService
         catch (Exception ex)
         {
             //TODO Handle specific exceptions
-            throw new ApplicationException(message: ex.ToString());
+            throw new ApplicationException(ex.ToString());
         }
     }
 
     public UserUpdateDto Update(UserUpdateDto userUpdateDto)
     {
-        _userValidationService.ValidateUser(userUpdateDto.Id);
+        var user = _userValidationService.ValidateUser(userUpdateDto.Id);
 
-        var user = _repository.GetAll<UserGateway>().FirstOrDefault(u => u.Id == userUpdateDto.Id);
+        var userIntegration = _repository.GetAll<IntegrationGateway>().FirstOrDefault(i => i.UserId == userUpdateDto.Id) ?? new IntegrationGateway();
 
+        //TODO Integration update service to remove this logic
+        var wooConsumerKey = userUpdateDto.Integration.WooConsumerKey;
+        if (wooConsumerKey != null) userIntegration.WooConsumerKey = wooConsumerKey;
+
+        var wooConsumerSecret = userUpdateDto.Integration.WooConsumerSecret;
+        if (wooConsumerSecret != null) userIntegration.WooConsumerSecret = wooConsumerSecret;
+
+        var wooUrl = userUpdateDto.Integration.WooUrl;
+        if (wooUrl != null) userIntegration.WooUrl = wooUrl;
+
+        // Set the new Integrations for the user
         var integrationGateway = _mapper.Map<IntegrationGateway>(userUpdateDto.Integration);
+        user.Integration = userIntegration;
 
-        user.Integrations.Add(integrationGateway);
-        
         _repository.Update(user);
         _repository.Commit();
         return userUpdateDto;
@@ -60,7 +69,8 @@ public class UsersService : IUsersService
 
         if (userQuery.DateLastModifiedFrom != null && userQuery.DateLastModifiedTo != null)
         {
-            users = users.Where(u => DateTime.Compare((DateTime)userQuery.DateLastModifiedFrom, u.DateLastModified) < 0);
+            users = users.Where(u =>
+                DateTime.Compare((DateTime)userQuery.DateLastModifiedFrom, u.DateLastModified) < 0);
             users = users.Where(u => DateTime.Compare((DateTime)userQuery.DateLastModifiedTo, u.DateLastModified) > 0);
         }
 
@@ -75,8 +85,8 @@ public class UsersService : IUsersService
 
         foreach (var user in usersList)
         {
-            var integrations = _repository.GetAll<IntegrationGateway>().Where(u => u.UserId == user.Id).ToList();
-            user.Integrations = _mapper.Map<List<IntegrationGateway>>(integrations);
+            var integration = _repository.GetAll<IntegrationGateway>().FirstOrDefault(u => u.UserId == user.Id);
+            user.Integration = _mapper.Map<IntegrationGateway>(integration);
         }
 
         var x = _mapper.Map<IEnumerable<UserResultDto>>(usersList);

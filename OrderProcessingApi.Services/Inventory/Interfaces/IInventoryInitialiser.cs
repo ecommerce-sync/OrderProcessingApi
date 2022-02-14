@@ -1,7 +1,9 @@
 ﻿using OrderProcessingApi.Domain;
 
+namespace OrderProcessingApi.Services.Inventory.Interfaces;
+
 public interface IInventoryInitialiser
 {
-    public void Initialize(IntegrationDto integration, int userId);
+    public bool Initialize(IntegrationDto integration, int userId);
 
 }

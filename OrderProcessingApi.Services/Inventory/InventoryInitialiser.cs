@@ -1,9 +1,11 @@
-﻿using OrderProcessingApi.Data.Interfaces;
+﻿using Newtonsoft.Json;
+using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Integrations;
+using OrderProcessingApi.Services.Inventory.Interfaces;
 using OrderProcessingApi.Services.Users.Interfaces;
 
-namespace OrderProcessingApi.Services.Inventory.Interfaces;
+namespace OrderProcessingApi.Services.Inventory;
 
 public class InventoryInitialiser : IInventoryInitialiser
 {
@@ -25,7 +27,7 @@ public class InventoryInitialiser : IInventoryInitialiser
     //    };
     //}
 
-    public void Initialize(IntegrationDto integrationDto, int userId)
+    public bool Initialize(IntegrationDto integrationDto, int userId)
     {
         //Initialize Integration
         var integration = new Integration()
@@ -35,11 +37,20 @@ public class InventoryInitialiser : IInventoryInitialiser
             WooUrl = integrationDto.WooUrl
         };
 
-        if (integration.WooConsumerSecret != null && integration.WooConsumerKey != null & integration.WooUrl != null)
+        try
         {
-            _wooInventoryService.Initialize(integration, userId);
-        }
+            if (integration.WooConsumerSecret != null &&
+                integration.WooConsumerKey != null & integration.WooUrl != null)
+            {
+                _wooInventoryService.Initialize(integration, userId);
+            }
 
+            return true;
+        }
+        catch (JsonSerializationException)
+        {
+            return false;
+        }
     }
 }
 

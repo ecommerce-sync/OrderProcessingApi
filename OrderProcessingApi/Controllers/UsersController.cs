@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Helpers.Exceptions;
+using OrderProcessingApi.Services.Inventory.Interfaces;
 using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
@@ -50,9 +51,11 @@ public class UsersController : ControllerBase
     {
         try
         {
+            //TODO Decide what happens when products not initialized
+            if (!_inventoryInitialiser.Initialize(userUpdate.Integration, userUpdate.Id))
+                return ValidationProblem("Problem with credentials");
+
             var user = _usersService.Update(userUpdate);
-            _inventoryInitialiser.Initialize(user.Integration, user.Id);
-            
             return user;
         }
 
