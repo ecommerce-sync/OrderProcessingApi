@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
-using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Helpers.Exceptions;
 using OrderProcessingApi.Services.Inventory.Interfaces;
-using Integration = OrderProcessingApi.Domain.Integrations.Integration;
+using Integration = OrderProcessingApi.Domain.Integration;
 
 namespace OrderProcessingApi.Controllers;
 

@@ -21,5 +21,20 @@ public class IntegrationProfile : Profile
             .ForMember(dest => dest.WooConsumerKey, opt => opt.MapFrom(src => src.WooConsumerKey))
             .ForMember(dest => dest.WooConsumerSecret, opt => opt.MapFrom(src => src.WooConsumerSecret))
             .ForMember(dest => dest.WooUrl, opt => opt.MapFrom(src => src.WooUrl));
+
+        CreateMap<IntegrationDto, Integration>()
+            .ForMember(dest => dest.WooConsumerKey, opt => opt.MapFrom(src => src.WooConsumerKey))
+            .ForMember(dest => dest.WooConsumerSecret, opt => opt.MapFrom(src => src.WooConsumerSecret))
+            .ForMember(dest => dest.WooUrl, opt => opt.MapFrom(src => src.WooUrl));
+
+        CreateMap<Integration, IntegrationGateway>()
+            .ForMember(dest => dest.WooConsumerKey, opt => opt.MapFrom(src => src.WooConsumerKey))
+            .ForMember(dest => dest.WooConsumerSecret, opt => opt.MapFrom(src => src.WooConsumerSecret))
+            .ForMember(dest => dest.WooUrl, opt => opt.MapFrom(src => src.WooUrl));
+
+        CreateMap<IntegrationGateway, Integration>()
+            .ForMember(dest => dest.WooConsumerKey, opt => opt.MapFrom(src => src.WooConsumerKey))
+            .ForMember(dest => dest.WooConsumerSecret, opt => opt.MapFrom(src => src.WooConsumerSecret))
+            .ForMember(dest => dest.WooUrl, opt => opt.MapFrom(src => src.WooUrl));
     }
 }

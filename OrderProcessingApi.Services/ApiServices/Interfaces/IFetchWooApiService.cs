@@ -1,4 +1,4 @@
-﻿using OrderProcessingApi.Domain.Integrations;
+﻿using OrderProcessingApi.Domain;
 
 namespace OrderProcessingApi.Services.ApiServices.Interfaces;
 

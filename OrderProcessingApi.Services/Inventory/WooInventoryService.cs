@@ -2,7 +2,6 @@
 using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
-using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.ApiServices.Interfaces;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 
@@ -28,7 +27,7 @@ public class WooInventoryService : IWooInventoryService
         inventoryItems.AddRange(items);
     }
 
-    public void Initialize(Integration integration, int userId)
+    public void AddInventoryItemsDb(Integration integration, int userId)
     {
         var wooProducts = GetAll(integration);
 

@@ -2,6 +2,7 @@
 using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
+using OrderProcessingApi.Services.Integrations;
 using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Services.Users;
@@ -11,12 +12,14 @@ public class UsersService : IUsersService
     private readonly IMapper _mapper;
     private readonly IRepository _repository;
     private readonly IUserValidationService _userValidationService;
+    private readonly IIntegrationService _integrationService;
 
-    public UsersService(IRepository repository, IMapper mapper, IUserValidationService userValidationService)
+    public UsersService(IRepository repository, IMapper mapper, IUserValidationService userValidationService, IIntegrationService integrationService)
     {
         _repository = repository;
         _mapper = mapper;
         _userValidationService = userValidationService;
+        _integrationService = integrationService;
     }
 
     public IEnumerable<UserGateway> CreateUsers(IEnumerable<UserDto> userDtos)
@@ -35,29 +38,17 @@ public class UsersService : IUsersService
         }
     }
 
-    public UserUpdateDto Update(UserUpdateDto userUpdateDto)
+    public void Update(UserUpdateDto userUpdateDto)
     {
         var user = _userValidationService.ValidateUser(userUpdateDto.Id);
 
-        var userIntegration = _repository.GetAll<IntegrationGateway>().FirstOrDefault(i => i.UserId == userUpdateDto.Id) ?? new IntegrationGateway();
+        var integration = _integrationService.UpdateIntegration(userUpdateDto.Integration, userUpdateDto.Id);
 
-        //TODO Integration update service to remove this logic
-        var wooConsumerKey = userUpdateDto.Integration.WooConsumerKey;
-        if (wooConsumerKey != null) userIntegration.WooConsumerKey = wooConsumerKey;
-
-        var wooConsumerSecret = userUpdateDto.Integration.WooConsumerSecret;
-        if (wooConsumerSecret != null) userIntegration.WooConsumerSecret = wooConsumerSecret;
-
-        var wooUrl = userUpdateDto.Integration.WooUrl;
-        if (wooUrl != null) userIntegration.WooUrl = wooUrl;
-
-        // Set the new Integrations for the user
-        var integrationGateway = _mapper.Map<IntegrationGateway>(userUpdateDto.Integration);
-        user.Integration = userIntegration;
+        var integrationGateway = _mapper.Map<IntegrationGateway>(integration);
+        user.Integration = integrationGateway;
 
         _repository.Update(user);
         _repository.Commit();
-        return userUpdateDto;
     }
 
     public IEnumerable<UserResultDto> GetUsersQuery(UserQueryDto userQuery)

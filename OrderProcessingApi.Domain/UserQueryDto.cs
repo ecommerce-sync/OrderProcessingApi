@@ -1,6 +1,4 @@
-﻿using OrderProcessingApi.Domain.Integrations;
-
-namespace OrderProcessingApi.Domain;
+﻿namespace OrderProcessingApi.Domain;
 
 public class UserQueryDto
 {

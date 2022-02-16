@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using OrderProcessingApi.Data.Interfaces;
 using OrderProcessingApi.Domain;
-using OrderProcessingApi.Domain.Integrations;
 using OrderProcessingApi.Services.Inventory.Interfaces;
 using OrderProcessingApi.Services.Users.Interfaces;
 
@@ -13,36 +13,25 @@ public class InventoryInitialiser : IInventoryInitialiser
     private readonly IRepository _repository;
     private readonly IUserValidationService _userValidationService;
     private readonly IWooInventoryService _wooInventoryService;
+    private IMapper _mapper;
 
-    public InventoryInitialiser(IWooInventoryService wooInventoryService)
+    public InventoryInitialiser(IWooInventoryService wooInventoryService, IMapper mapper)
     {
         _wooInventoryService = wooInventoryService;
+        _mapper = mapper;
     }
-
-    //public InventoryInitialiser(IServiceProvider serviceProvider, IUserValidationService userValidationService)
-    //{
-    //    _inventoryFetchers = new List<IInventoryServiceBase>
-    //    {
-    //        serviceProvider.GetService<IWooInventoryService>()!
-    //    };
-    //}
 
     public bool Initialize(IntegrationDto integrationDto, int userId)
     {
-        //Initialize Integration
-        var integration = new Integration()
-        {
-            WooConsumerSecret = integrationDto.WooConsumerSecret,
-            WooConsumerKey = integrationDto.WooConsumerKey,
-            WooUrl = integrationDto.WooUrl
-        };
+        //AddInventoryItemsDb Integration
+        var integration = _mapper.Map<Integration>(integrationDto);
 
         try
         {
             if (integration.WooConsumerSecret != null &&
                 integration.WooConsumerKey != null & integration.WooUrl != null)
             {
-                _wooInventoryService.Initialize(integration, userId);
+                _wooInventoryService.AddInventoryItemsDb(integration, userId);
             }
 
             return true;

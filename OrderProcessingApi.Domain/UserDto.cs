@@ -1,5 +1,4 @@
-﻿using OrderProcessingApi.Domain.Integrations;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
 namespace OrderProcessingApi.Domain;
 

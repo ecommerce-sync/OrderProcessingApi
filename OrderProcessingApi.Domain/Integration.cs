@@ -1,4 +1,4 @@
-﻿namespace OrderProcessingApi.Domain.Integrations;
+﻿namespace OrderProcessingApi.Domain;
 
 public class Integration
 {

@@ -55,8 +55,8 @@ public class UsersController : ControllerBase
             if (!_inventoryInitialiser.Initialize(userUpdate.Integration, userUpdate.Id))
                 return ValidationProblem("Problem with credentials");
 
-            var user = _usersService.Update(userUpdate);
-            return user;
+            _usersService.Update(userUpdate);
+            return userUpdate;
         }
 
         catch (InvalidUserException exception)
