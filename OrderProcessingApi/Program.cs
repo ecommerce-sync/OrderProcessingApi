@@ -13,6 +13,7 @@ using OrderProcessingApi.Services.Inventory.Interfaces;
 using OrderProcessingApi.Services.Users;
 using OrderProcessingApi.Services.Users.Interfaces;
 using System.Security.Claims;
+using OrderProcessingApi.Services.Integrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 builder.Services.AddScoped<IInventoryInitialiser, InventoryInitialiser>();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
+builder.Services.AddScoped<IIntegrationService, IntegrationService>();
 
 //Api Services
 builder.Services.AddScoped<IFetchWooApiService, FetchWooApiService>();
