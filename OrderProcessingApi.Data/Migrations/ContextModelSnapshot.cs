@@ -58,7 +58,7 @@ namespace OrderProcessingApi.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Integrations");
+                    b.ToTable("Integrations", (string)null);
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.PlatformGateway", b =>
@@ -106,7 +106,7 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Platforms");
+                    b.ToTable("Platforms", (string)null);
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.ProductGateway", b =>
@@ -143,7 +143,7 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.UserGateway", b =>
@@ -168,7 +168,7 @@ namespace OrderProcessingApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("OrderProcessingApi.Domain.Database.IntegrationGateway", b =>

@@ -10,7 +10,7 @@ public class PlatformGateway : GatewayBase
     public string PlatformSku { get; set; }
     public int PlatformId { get; set; }
     public double Price { get; set; }
-    public ProductGateway Product { get; set; }
+    public virtual ProductGateway Product { get; set; }
     public int ProductId { get; set; }
 
 }

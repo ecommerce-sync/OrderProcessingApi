@@ -31,9 +31,8 @@ public class InventoryService : IInventoryService
     public IEnumerable<ProductResultDto> Get(int userId)
     {
         var products = _repository.GetAll<ProductGateway>()
-            .Where(p => p.Id.ForceStringFromInt().Contains(userId.ForceStringFromInt()));
+            .Where(p => p.UserId == userId);
 
-        var products2 = _repository.GetAll<ProductGateway>();
         return _mapper.Map<IEnumerable<ProductResultDto>>(products);
     }
 
