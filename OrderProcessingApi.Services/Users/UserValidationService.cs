@@ -14,7 +14,7 @@ public class UserValidationService : IUserValidationService
         _repository = repository;
     }
 
-    public UserGateway ValidateUser(int userId)
+    public UserGateway ValidateUser(int? userId)
     {
         var user = _repository.GetAll<UserGateway>().FirstOrDefault(u => u.Id == userId);
 

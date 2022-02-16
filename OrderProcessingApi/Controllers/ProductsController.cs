@@ -5,20 +5,21 @@ using OrderProcessingApi.Domain;
 using OrderProcessingApi.Domain.Database;
 using OrderProcessingApi.Helpers.Exceptions;
 using OrderProcessingApi.Services.Inventory.Interfaces;
-using Integration = OrderProcessingApi.Domain.Integration;
+using OrderProcessingApi.Services.Users.Interfaces;
 
 namespace OrderProcessingApi.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ProductsController : ControllerBase
 {
     private readonly IInventoryService _inventoryService;
+    private readonly IUserValidationService _userValidationService;
 
-    public ProductsController(IInventoryService inventoryService)
+    public ProductsController(IInventoryService inventoryService, IUserValidationService userValidationService)
     {
         _inventoryService = inventoryService;
+        _userValidationService = userValidationService;
     }
 
     [HttpPost]
@@ -38,12 +39,11 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<ProductResultDto>> Get(int? userId)
     {
+        var user = _userValidationService.ValidateUser(userId);
         try
         {
             Response.StatusCode = 400;
-            if (userId != null) return _inventoryService.Get((int)userId).ToList();
-
-            throw new InvalidUserException();
+            return _inventoryService.Get(user.Id).ToList();
         }
         catch (Exception)
         {
